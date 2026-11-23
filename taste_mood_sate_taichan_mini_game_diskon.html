@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taste Mood — Sate Taichan Pedas Gila Real Mood & Mini Game</title>
+    
+    <!-- Google Fonts: Titan One & Fredoka untuk tampilan Display tebal retro, Plus Jakarta Sans untuk teks body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Titan+One&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS untuk utilitas responsif cepat -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* =========================================
+           1. VARIABEL & KONFIGURASI WARNA RETRO
+           ========================================= */
+        :root {
+            --bg-cream: #FAF3E0;
+            --bg-cream-dark: #F1E4C3;
+            --brand-red: #B81D18;
+            --brand-red-dark: #8F130F;
+            --brand-orange: #FF6B2B;
+            --ink-black: #1E1311;
+            --lime-green: #7AB82D;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--ink-black);
+            background-color: var(--bg-cream);
+            /* Pola polkadot merah halus sesuai latar luar mockup */
+            background-image: radial-gradient(rgba(184, 29, 24, 0.28) 2.2px, transparent 2.2px);
+            background-size: 18px 18px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* =========================================
+           2. GELOMBANG DEKORATIF ATAS & BAWAH
+           ========================================= */
+        .wave-top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 46px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .wave-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 46px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* =========================================
+           3. KONTAINER UTAMA CARD BESAR MERAH TUA
+           ========================================= */
+        .main-showcase-card {
+            position: relative;
+            z-index: 10;
+            background-color: var(--brand-red);
+            border: 3px solid var(--ink-black);
+            border-radius: 36px;
+            box-shadow: 0 18px 40px rgba(30, 19, 17, 0.25);
+            overflow: hidden;
+        }
+
+        /* =========================================
+           4. TIPOGRAFI DISPLAY & EFEK OUTLINE
+           ========================================= */
+        .font-display {
+            font-family: 'Titan One', 'Fredoka', cursive, sans-serif;
+            letter-spacing: 0.02em;
+        }
+
+        .font-rounded {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .hero-title-solid {
+            color: var(--bg-cream);
+            text-shadow: 0 4px 0 rgba(30, 19, 17, 0.25);
+            line-height: 0.95;
+        }
+
+        .hero-title-outline {
+            color: var(--brand-red);
+            -webkit-text-stroke: 3px var(--bg-cream);
+            paint-order: stroke fill;
+            text-shadow: 0 4px 0 rgba(30, 19, 17, 0.22);
+            line-height: 0.95;
+        }
+
+        @media (min-width: 768px) {
+            .hero-title-outline {
+                -webkit-text-stroke: 4px var(--bg-cream);
+            }
+        }
+
+        /* =========================================
+           5. KOMPONEN NEO-BRUTALISM (BUTTON & CARD)
+           ========================================= */
+        .brutal-pill {
+            border: 2.5px solid var(--ink-black);
+            box-shadow: 3px 4px 0px var(--ink-black);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .brutal-pill:hover {
+            transform: translate(-1.5px, -1.5px);
+            box-shadow: 5px 6px 0px var(--ink-black);
+        }
+
+        .brutal-pill:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px var(--ink-black);
+        }
+
+        .brutal-card {
+            background-color: var(--bg-cream);
+            border: 2.5px solid var(--ink-black);
+            box-shadow: 5px 6px 0px var(--ink-black);
+            border-radius: 24px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .brutal-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 7px 9px 0px var(--ink-black);
+        }
+
+        /* =========================================
+           6. STIKER & ANIMASI HALUS
+           ========================================= */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(-6deg); }
+            50% { transform: translateY(-7px) rotate(-3deg); }
+        }
+
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+
+        .sticker-mascot {
+            animation: floatSlow 3.5s ease-in-out infinite;
+            filter: drop-shadow(3px 5px 0px var(--ink-black));
+        }
+
+        .sticker-badge-spin {
+            animation: spinSlow 24s linear infinite;
+        }
+
+        .btn-pulse {
+            animation: pulseGlow 2.2s ease-in-out infinite;
+        }
+
+        .sticker-text-tilt {
+            transform: rotate(18deg);
+            text-shadow: 2px 3px 0px var(--ink-black);
+            -webkit-text-stroke: 4px var(--bg-cream);
+            paint-order: stroke fill;
+            color: var(--brand-red);
+        }
+
+        /* =========================================
+           7. MARQUEE / RUNNING TEXT PITA BAWAH
+           ========================================= */
+        .marquee-wrapper {
+            position: relative;
+            background-color: var(--brand-red);
+            border-top: 4px solid var(--brand-orange);
+            border-bottom: 4px solid var(--brand-orange);
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 10px 0;
+        }
+
+        .marquee-track {
+            display: inline-flex;
+            align-items: center;
+            animation: marqueeScroll 22s linear infinite;
+        }
+
+        .marquee-wrapper:hover .marquee-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* =========================================
+           8. STYLING CANVAS GAME & KONTROL SENTUH
+           ========================================= */
+        #game-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            touch-action: none; /* Mencegah scroll halaman saat menggeser karakter di HP */
+            cursor: grab;
+        }
+
+        #game-canvas:active {
+            cursor: grabbing;
+        }
+
+        .taichan-plate-shadow {
+            filter: drop-shadow(0 18px 24px rgba(20, 8, 6, 0.55));
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-cream);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--brand-red);
+            border-radius: 999px;
+        }
+    </style>
+</head>
+<body class="py-5 px-3 sm:px-6 md:px-10 lg:px-14">
+
+    <!-- GELOMBANG MERAH-ORANYE BAGIAN ATAS -->
+    <svg class="wave-top" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,0 L1440,0 L1440,32 Q1260,58 1080,32 T720,32 T360,32 T0,32 Z" fill="#FF6B2B"/>
+        <path d="M0,0 L1440,0 L1440,22 Q1260,48 1080,22 T720,22 T360,22 T0,22 Z" fill="#B81D18"/>
+    </svg>
+
+    <!-- GELOMBANG MERAH-ORANYE BAGIAN BAWAH -->
+    <svg class="wave-bottom" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,60 L1440,60 L1440,28 Q1260,2 1080,28 T720,28 T360,28 T0,28 Z" fill="#FF6B2B"/>
+        <path d="M0,60 L1440,60 L1440,38 Q1260,12 1080,38 T720,38 T360,38 T0,38 Z" fill="#B81D18"/>
+    </svg>
+
+    <!-- KONTAINER UTAMA WEBSITE -->
+    <main class="main-showcase-card max-w-[1260px] mx-auto my-2 sm:my-4">
+        
+        <!-- =======================================================
+             NAVBAR (LATAR KREM #FAF3E0 DI DALAM KONTAINER MERAH)
+             ======================================================= -->
+        <header class="px-4 pt-4 sm:px-7 sm:pt-6">
+            <nav class="bg-[#FAF3E0] border-2 border-[#1E1311] rounded-full px-5 sm:px-8 py-3 flex items-center justify-between shadow-[0_4px_0_#1E1311]">
+                
+                <!-- Logo Kiri: TASTE MOOD -->
+                <a href="#home" class="flex flex-col leading-none group">
+                    <span class="font-display text-xl sm:text-2xl text-[#B81D18] tracking-tight group-hover:scale-105 transition-transform">
+                        taste
+                    </span>
+                    <span class="font-rounded text-[10px] sm:text-xs font-extrabold tracking-[0.22em] text-[#1E1311] uppercase -mt-1">
+                        MOOD
+                    </span>
+                </a>
+
+                <!-- Menu Navigasi Tengah (Desktop) -->
+                <ul class="hidden md:flex items-center gap-6 lg:gap-8 font-extrabold text-xs lg:text-sm tracking-wider text-[#1E1311]">
+                    <li>
+                        <a href="#home" class="text-[#B81D18] hover:text-[#FF6B2B] transition-colors">HOME</a>
+                    </li>
+                    <li>
+                        <a href="#game-zone" class="flex items-center gap-1.5 text-[#1E1311] hover:text-[#B81D18] transition-colors">
+                            <span>🎮 MAIN &amp; DISKON</span>
+                            <span class="bg-[#FF6B2B] text-[#FAF3E0] text-[10px] px-2 py-0.5 rounded-full border border-[#1E1311]">NEW</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#menu" class="hover:text-[#B81D18] transition-colors">MENU</a>
+                    </li>
+                    <li>
+                        <a href="#story" class="hover:text-[#B81D18] transition-colors">OUR STORY</a>
+                    </li>
+                </ul>
+
+                <!-- Aksi Kanan: Ikon Cart & Tombol Pill Merah ORDER NOW -->
+                <div class="flex items-center gap-2.5 sm:gap-4">
+                    <button onclick="toggleCart()" aria-label="Buka Keranjang Belanja" class="relative p-2 rounded-full hover:bg-[#F1E4C3] transition-colors text-[#1E1311] cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span id="cart-badge" class="absolute -top-0.5 -right-0.5 bg-[#B81D18] text-[#FAF3E0] text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#1E1311]">
+                            1
+                        </span>
+                    </button>
+
+                    <a href="#game-zone" class="brutal-pill bg-[#FF6B2B] text-[#FAF3E0] font-extrabold text-xs sm:text-sm px-4 sm:px-5 py-2.5 rounded-full flex items-center gap-1.5 tracking-wide">
+                        <span>🎮 PLAY &amp; WIN</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Navigasi Mobile Bar -->
+            <div class="flex md:hidden justify-center gap-4 mt-3 text-[11px] font-extrabold tracking-wider text-[#FAF3E0]">
+                <a href="#home" class="underline decoration-2 underline-offset-4">HOME</a>
+                <a href="#game-zone" class="text-[#FFD166] hover:underline">🎮 GAME DISKON</a>
+                <a href="#menu" class="hover:underline">MENU</a>
+                <a href="#story" class="hover:underline">STORY</a>
+            </div>
+        </header>
+
+        <!-- =======================================================
+             HERO SECTION (PERSIS SEPERTI MOCKUP SATE TAICHAN)
+             ======================================================= -->
+        <section id="home" class="relative px-5 sm:px-10 lg:px-14 pt-6 sm:pt-8 pb-8 sm:pb-10">
+            
+            <!-- HEADLINE UTAMA + STIKER MASKOT SATE TAICHAN -->
+            <div class="relative max-w-4xl mx-auto text-center select-none">
+                
+                <!-- Stiker Kartun Tusuk Sate Taichan Berkacamata Hitam -->
+                <div class="sticker-mascot hidden sm:block absolute -left-2 md:left-6 lg:left-12 top-2 md:top-3 z-20 w-24 md:w-28 lg:w-32" title="Taichan Cool Mascot">
+                    <svg viewBox="0 0 160 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g stroke="#FAF3E0" stroke-width="12" stroke-linejoin="round" stroke-linecap="round">
+                            <line x1="58" y1="22" x2="64" y2="175" />
+                            <line x1="104" y1="26" x2="96" y2="178" />
+                            <circle cx="60" cy="56" r="18" />
+                            <circle cx="61" cy="88" r="20" />
+                            <circle cx="62" cy="122" r="18" />
+                            <circle cx="102" cy="60" r="18" />
+                            <circle cx="100" cy="92" r="20" />
+                            <circle cx="98" cy="125" r="18" />
+                        </g>
+                        <line x1="58" y1="22" x2="64" y2="175" stroke="#D99B52" stroke-width="6" stroke-linecap="round"/>
+                        <line x1="58" y1="22" x2="64" y2="175" stroke="#1E1311" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="104" y1="26" x2="96" y2="178" stroke="#D99B52" stroke-width="6" stroke-linecap="round"/>
+                        <line x1="104" y1="26" x2="96" y2="178" stroke="#1E1311" stroke-width="2" stroke-linecap="round"/>
+
+                        <ellipse cx="60" cy="56" rx="19" ry="15" fill="#F2C894" stroke="#1E1311" stroke-width="3"/>
+                        <ellipse cx="61" cy="88" rx="21" ry="17" fill="#E8B274" stroke="#1E1311" stroke-width="3"/>
+                        <ellipse cx="62" cy="120" rx="19" ry="15" fill="#F2C894" stroke="#1E1311" stroke-width="3"/>
+                        <path d="M48 82 Q60 95 74 84" stroke="#B81D18" stroke-width="4" stroke-linecap="round"/>
+
+                        <ellipse cx="102" cy="60" rx="19" ry="15" fill="#E8B274" stroke="#1E1311" stroke-width="3"/>
+                        <ellipse cx="100" cy="92" rx="21" ry="17" fill="#F2C894" stroke="#1E1311" stroke-width="3"/>
+                        <ellipse cx="98" cy="124" rx="19" ry="15" fill="#E8B274" stroke="#1E1311" stroke-width="3"/>
+                        <path d="M88 86 Q100 98 112 87" stroke="#B81D18" stroke-width="4" stroke-linecap="round"/>
+
+                        <rect x="43" y="50" width="15" height="10" rx="2" fill="#1E1311"/>
+                        <rect x="61" y="50" width="15" height="10" rx="2" fill="#1E1311"/>
+                        <line x1="57" y1="53" x2="62" y2="53" stroke="#1E1311" stroke-width="3"/>
+                        <line x1="46" y1="53" x2="51" y2="57" stroke="#FAF3E0" stroke-width="1.5"/>
+                        <path d="M55 66 Q60 70 65 66" stroke="#1E1311" stroke-width="2.5" stroke-linecap="round"/>
+
+                        <rect x="85" y="54" width="15" height="10" rx="2" fill="#1E1311"/>
+                        <rect x="103" y="54" width="15" height="10" rx="2" fill="#1E1311"/>
+                        <line x1="99" y1="57" x2="104" y2="57" stroke="#1E1311" stroke-width="3"/>
+                        <line x1="88" y1="57" x2="93" y2="61" stroke="#FAF3E0" stroke-width="1.5"/>
+                        <path d="M97 70 Q102 74 107 70" stroke="#1E1311" stroke-width="2.5" stroke-linecap="round"/>
+
+                        <path d="M41 92 Q28 90 30 80 Q35 76 38 84" fill="#FAF3E0" stroke="#1E1311" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M119 95 Q132 93 130 83 Q125 79 122 87" fill="#FAF3E0" stroke="#1E1311" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <!-- Baris 1 Headline: PEDAS GILA -->
+                <h1 class="font-display hero-title-solid text-5xl sm:text-7xl md:text-[84px] lg:text-[96px] uppercase tracking-tight">
+                    PEDAS GILA
+                </h1>
+
+                <!-- Baris 2 Headline: REAL MOOD (Outline Putih Tebal) -->
+                <div class="font-display hero-title-outline text-5xl sm:text-7xl md:text-[84px] lg:text-[96px] uppercase tracking-tight -mt-1 sm:-mt-2">
+                    REAL MOOD
+                </div>
+            </div>
+
+            <!-- GRID 3 KOLOM HERO BAWAH -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-4 items-center mt-4 sm:mt-2 relative">
+                
+                <!-- KOLOM KIRI: Deskripsi Singkat & Tombol CTA + Tombol Play Game -->
+                <div class="lg:col-span-4 order-2 lg:order-1 text-center lg:text-left z-20 space-y-5 px-2">
+                    <p class="text-[#FAF3E0] text-sm sm:text-[15px] leading-relaxed font-medium max-w-sm mx-auto lg:mx-0">
+                        Sate ayam bakar tanpa kecap, disajikan dengan sambal pedas membara dan perasan jeruk limau segar. Mainkan game-nya &amp; raih diskon hingga 50%!
+                    </p>
+
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-1">
+                        <a href="#game-zone" class="brutal-pill btn-pulse bg-[#FFD166] text-[#1E1311] font-extrabold text-xs sm:text-sm px-5 py-3 rounded-full inline-flex items-center gap-2 cursor-pointer">
+                            <span>🎮 PLAY &amp; WIN DISKON</span>
+                        </a>
+
+                        <button onclick="quickOrderSpesial()" class="brutal-pill bg-[#FAF3E0] text-[#1E1311] font-extrabold text-xs sm:text-sm px-5 py-3 rounded-full inline-flex items-center gap-1.5 cursor-pointer">
+                            <span>ORDER NOW</span>
+                            <span>→</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- KOLOM TENGAH: ILUSTRASI UTAMA SATE TAICHAN DI ATAS KERTAS MINYAK + SAMBAL + JERUK LIMAU -->
+                <div class="lg:col-span-4 order-1 lg:order-2 relative flex justify-center items-center my-2 lg:-mt-6 z-10">
+                    
+                    <!-- Stiker Teks Miring Kanan Atas: SO SPICY STUFF -->
+                    <div class="sticker-text-tilt font-display text-lg sm:text-xl md:text-2xl leading-none text-center absolute -top-2 right-4 sm:right-8 lg:-right-4 z-30 pointer-events-none select-none">
+                        SO SPICY<br>STUFF
+                    </div>
+
+                    <!-- Stiker Segel Bergerigi Kiri Bawah: HOT MOOD -->
+                    <div class="absolute -bottom-3 left-4 sm:left-12 lg:-left-6 z-30 w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center select-none drop-shadow-[3px_4px_0_#1E1311]">
+                        <svg viewBox="0 0 120 120" class="w-full h-full sticker-badge-spin">
+                            <path d="M60 4 L71 12 L85 9 L91 22 L105 25 L105 39 L116 48 L110 61 L116 74 L105 83 L105 97 L91 100 L85 113 L71 110 L60 118 L49 110 L35 113 L29 100 L15 97 L15 83 L4 74 L10 61 L4 48 L15 39 L15 25 L29 22 L35 9 L49 12 Z" fill="#FAF3E0" stroke="#1E1311" stroke-width="3"/>
+                            <circle cx="60" cy="61" r="42" fill="none" stroke="#B81D18" stroke-width="1.5" stroke-dasharray="3 3"/>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center leading-none -rotate-12">
+                            <span class="text-[8px] font-extrabold text-[#1E1311] tracking-widest uppercase">Taste Good</span>
+                            <span class="font-display text-base sm:text-lg text-[#B81D18] my-0.5">HOT<br>MOOD</span>
+                            <span class="text-[8px] font-extrabold text-[#1E1311] tracking-widest uppercase">Stay Good</span>
+                        </div>
+                    </div>
+
+                    <!-- Ilustrasi SVG Detail Hidangan Sate Taichan di Atas Kertas Minyak -->
+                    <div class="w-[290px] sm:w-[340px] md:w-[360px] taichan-plate-shadow transform hover:scale-105 transition-transform duration-300">
+                        <svg viewBox="0 0 420 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <radialGradient id="sambalGrad" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#FF551A"/>
+                                    <stop offset="65%" stop-color="#D92B14"/>
+                                    <stop offset="100%" stop-color="#9E160B"/>
+                                </radialGradient>
+                                <linearGradient id="chickenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#FFF2D9"/>
+                                    <stop offset="55%" stop-color="#E6C391"/>
+                                    <stop offset="100%" stop-color="#B8874D"/>
+                                </linearGradient>
+                                <linearGradient id="paperGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#FFFDF7"/>
+                                    <stop offset="100%" stop-color="#E8D8BE"/>
+                                </linearGradient>
+                            </defs>
+
+                            <!-- Piring Bulat Bawah -->
+                            <ellipse cx="205" cy="215" rx="145" ry="95" fill="#D6C7B2" stroke="#1E1311" stroke-width="3"/>
+                            <ellipse cx="205" cy="210" rx="132" ry="84" fill="#EFE4D2" stroke="#1E1311" stroke-width="2"/>
+
+                            <!-- Kertas Minyak -->
+                            <polygon points="62,188 188,108 358,176 264,296 92,254" fill="url(#paperGrad)" stroke="#1E1311" stroke-width="2.5" stroke-linejoin="round"/>
+                            <path d="M125 150 L215 268 M188 108 L235 235" stroke="#D5C2A5" stroke-width="2" stroke-dasharray="6 4"/>
+
+                            <!-- Genangan Sambal Taichan -->
+                            <path d="M110 195 Q135 165 195 175 Q255 182 268 222 Q272 265 210 272 Q145 276 115 242 Q98 220 110 195 Z" fill="url(#sambalGrad)" stroke="#7A0E06" stroke-width="2"/>
+                            <circle cx="155" cy="225" r="3" fill="#FFD166"/>
+                            <circle cx="182" cy="242" r="2.5" fill="#FFD166"/>
+                            <circle cx="142" cy="246" r="2.5" fill="#FF9F1C"/>
+                            <circle cx="205" cy="252" r="3" fill="#FFD166"/>
+                            <circle cx="168" cy="212" r="2" fill="#FFF3B0"/>
+                            <ellipse cx="148" cy="232" rx="12" ry="5" fill="#FF8C42" opacity="0.55" transform="rotate(-15 148 232)"/>
+
+                            <!-- Irisan Jeruk Limau -->
+                            <g transform="translate(88, 128) rotate(-18)">
+                                <circle cx="34" cy="34" r="32" fill="#5A9E1E" stroke="#1E1311" stroke-width="2.5"/>
+                                <circle cx="34" cy="34" r="26" fill="#D9F296"/>
+                                <circle cx="34" cy="34" r="22" fill="#8CD136"/>
+                                <line x1="34" y1="12" x2="34" y2="56" stroke="#E9F9B8" stroke-width="2.5"/>
+                                <line x1="12" y1="34" x2="56" y2="34" stroke="#E9F9B8" stroke-width="2.5"/>
+                                <line x1="18" y1="18" x2="50" y2="50" stroke="#E9F9B8" stroke-width="2.5"/>
+                                <line x1="50" y1="18" x2="18" y2="50" stroke="#E9F9B8" stroke-width="2.5"/>
+                            </g>
+
+                            <g transform="translate(125, 112) rotate(12)">
+                                <path d="M5 30 A28 28 0 0 1 61 30 Z" fill="#6BB324" stroke="#1E1311" stroke-width="2.5"/>
+                                <path d="M10 28 A23 23 0 0 1 56 28 Z" fill="#9EE046"/>
+                                <line x1="33" y1="28" x2="20" y2="12" stroke="#E9F9B8" stroke-width="2"/>
+                                <line x1="33" y1="28" x2="33" y2="7" stroke="#E9F9B8" stroke-width="2"/>
+                                <line x1="33" y1="28" x2="46" y2="12" stroke="#E9F9B8" stroke-width="2"/>
+                            </g>
+
+                            <!-- Tusuk Sate Taichan -->
+                            <g transform="translate(155, 148) rotate(-36)">
+                                <line x1="0" y1="14" x2="215" y2="14" stroke="#C88A4B" stroke-width="4.5" stroke-linecap="round"/>
+                                <rect x="14" y="3" width="28" height="21" rx="9" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <rect x="44" y="2" width="30" height="23" rx="10" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <rect x="76" y="4" width="28" height="20" rx="9" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <rect x="106" y="3" width="26" height="21" rx="9" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <path d="M22 8 Q28 14 22 19 M54 7 Q60 14 54 20 M84 8 Q90 14 84 19" stroke="#7A4B20" stroke-width="2" stroke-linecap="round"/>
+                            </g>
+
+                            <g transform="translate(168, 168) rotate(-34)">
+                                <line x1="0" y1="14" x2="220" y2="14" stroke="#C88A4B" stroke-width="4.5" stroke-linecap="round"/>
+                                <rect x="12" y="2" width="30" height="22" rx="10" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <rect x="44" y="1" width="32" height="24" rx="10" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <rect x="78" y="3" width="28" height="21" rx="9" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <rect x="108" y="2" width="28" height="22" rx="9" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <path d="M24 7 Q30 13 24 19 M56 6 Q62 13 56 20 M88 7 Q94 13 88 19" stroke="#7A4B20" stroke-width="2" stroke-linecap="round"/>
+                            </g>
+
+                            <g transform="translate(182, 188) rotate(-32)">
+                                <line x1="0" y1="14" x2="225" y2="14" stroke="#D99B52" stroke-width="4.5" stroke-linecap="round"/>
+                                <rect x="14" y="2" width="30" height="23" rx="10" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <rect x="46" y="1" width="31" height="24" rx="10" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <rect x="79" y="2" width="30" height="22" rx="10" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <rect x="111" y="3" width="27" height="21" rx="9" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <path d="M22 10 Q38 18 58 11 Q75 16 95 11" stroke="#D92B14" stroke-width="4" stroke-linecap="round" opacity="0.85"/>
+                            </g>
+
+                            <g transform="translate(198, 208) rotate(-30)">
+                                <line x1="0" y1="14" x2="225" y2="14" stroke="#D99B52" stroke-width="4.5" stroke-linecap="round"/>
+                                <rect x="12" y="2" width="31" height="23" rx="10" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <rect x="45" y="1" width="32" height="24" rx="10" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <rect x="79" y="2" width="30" height="23" rx="10" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <rect x="111" y="3" width="28" height="21" rx="9" fill="url(#chickenGrad)" stroke="#1E1311" stroke-width="2"/>
+                                <path d="M25 8 Q32 14 25 20 M58 7 Q64 14 58 20 M90 8 Q96 14 90 20" stroke="#6E3F16" stroke-width="2.2" stroke-linecap="round"/>
+                                <circle cx="32" cy="11" r="2.2" fill="#B81D18"/>
+                                <circle cx="64" cy="14" r="2.5" fill="#B81D18"/>
+                                <circle cx="94" cy="11" r="2" fill="#7A4B20"/>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- KOLOM KANAN: Card Pill Horizontal 'Sate Taichan Spesial' -->
+                <div class="lg:col-span-4 order-3 flex justify-center lg:justify-end z-20">
+                    <div onclick="quickOrderSpesial()" class="brutal-pill bg-[#FAF3E0] rounded-full p-2.5 pr-6 flex items-center gap-3.5 max-w-[330px] w-full cursor-pointer group">
+                        <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#FF6B2B] border-2 border-[#1E1311] flex-shrink-0 overflow-hidden flex items-center justify-center relative">
+                            <svg viewBox="0 0 80 80" class="w-full h-full group-hover:scale-110 transition-transform">
+                                <circle cx="40" cy="40" r="38" fill="#FDE6C4"/>
+                                <circle cx="40" cy="44" r="26" fill="#D92B14"/>
+                                <g transform="translate(16, 46) rotate(-32)">
+                                    <line x1="0" y1="7" x2="54" y2="7" stroke="#8C5828" stroke-width="2.5"/>
+                                    <rect x="6" y="1" width="12" height="11" rx="4" fill="#F5D3A1" stroke="#1E1311" stroke-width="1.5"/>
+                                    <rect x="20" y="1" width="12" height="11" rx="4" fill="#F5D3A1" stroke="#1E1311" stroke-width="1.5"/>
+                                    <rect x="34" y="1" width="12" height="11" rx="4" fill="#F5D3A1" stroke="#1E1311" stroke-width="1.5"/>
+                                </g>
+                                <g transform="translate(24, 54) rotate(-32)">
+                                    <line x1="0" y1="7" x2="54" y2="7" stroke="#8C5828" stroke-width="2.5"/>
+                                    <rect x="6" y="1" width="12" height="11" rx="4" fill="#E8B97B" stroke="#1E1311" stroke-width="1.5"/>
+                                    <rect x="20" y="1" width="12" height="11" rx="4" fill="#E8B97B" stroke="#1E1311" stroke-width="1.5"/>
+                                    <rect x="34" y="1" width="12" height="11" rx="4" fill="#E8B97B" stroke="#1E1311" stroke-width="1.5"/>
+                                </g>
+                                <circle cx="24" cy="26" r="8" fill="#7AB82D" stroke="#1E1311" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+
+                        <div class="text-left">
+                            <h2 class="font-rounded font-bold text-base sm:text-[17px] text-[#B81D18] leading-tight">
+                                Sate Taichan Spesial
+                            </h2>
+                            <p class="text-xs text-[#1E1311] font-semibold mt-0.5">
+                                Pedasnya nampol, bikin nagih!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =======================================================
+             MARQUEE / RUNNING TEXT PITA BERGELOMBANG BAWAH HERO
+             ======================================================= -->
+        <div class="marquee-wrapper select-none" aria-label="Running Text Promo Sate Taichan">
+            <div class="marquee-track font-rounded font-bold text-base sm:text-lg text-[#FAF3E0] tracking-wide">
+                <span class="mx-5">Taichan</span>
+                <span class="text-[#FFD166] text-xl">✦</span>
+                <span class="mx-5">50 Sate = Diskon 5%</span>
+                <span class="text-[#FFD166] text-xl">✦</span>
+                <span class="mx-5">100 Sate = Diskon 10%</span>
+                <span class="text-[#FFD166] text-xl">✦</span>
+                <span class="mx-5">Pedas Gila Real Mood</span>
+                <span class="text-[#FFD166] text-xl">✦</span>
+                <span class="mx-5">Main Game Dapat Voucher!</span>
+                <span class="text-[#FFD166] text-xl">✦</span>
+                <!-- Duplikat -->
+                <span class="mx-5">Taichan</span>
+                <span class="text-[#FFD166] text-xl">✦</span>
+                <span class="mx-5">50 Sate = Diskon 5%</span>
+                <span class="text-[#FFD166] text-xl">✦</span>
+                <span class="mx-5">100 Sate = Diskon 10%</span>
+                <span class="text-[#FFD166] text-xl">✦</span>
+                <span class="mx-5">Pedas Gila Real Mood</span>
+                <span class="text-[#FFD166] text-xl">✦</span>
+                <span class="mx-5">Main Game Dapat Voucher!</span>
+                <span class="text-[#FFD166] text-xl">✦</span>
+            </div>
+        </div>
+
+        <!-- =======================================================
+             MINI GAME SECTION: TANGKAP & MAKAN SATE TAICHAN
+             ======================================================= -->
+        <section id="game-zone" class="bg-[#F1E4C3] px-4 sm:px-8 lg:px-12 py-12 sm:py-16 border-t-3 border-[#1E1311]">
+            <div class="max-w-5xl mx-auto">
+                
+                <!-- Header Mini Game -->
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <span class="inline-block bg-[#B81D18] text-[#FAF3E0] font-extrabold text-xs px-4 py-1.5 rounded-full border-2 border-[#1E1311] uppercase tracking-wider mb-3 shadow-[2px_3px_0_#1E1311]">
+                        🎮 TAICHAN CATCHER ARCADE
+                    </span>
+                    <h2 class="font-display text-3xl sm:text-5xl text-[#1E1311] uppercase leading-tight">
+                        MAKAN SATE, RAIH DISKON!
+                    </h2>
+                    <p class="text-xs sm:text-sm font-semibold text-[#4A3B37] mt-2">
+                        Geser karakter ke kiri &amp; kanan untuk melahap Sate Taichan yang jatuh dari langit! Setiap kelipatan <strong>50 Sate = +5% Diskon</strong> otomatis ke keranjangmu!
+                    </p>
+                </div>
+
+                <!-- Layout Utama Game: Kiri (Canvas Arena) & Kanan (Dashboard Hadiah & Progress) -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                    
+                    <!-- KOLOM ARENA GAME (7 Kolom) -->
+                    <div class="lg:col-span-7 flex flex-col">
+                        <div class="bg-[#FAF3E0] border-3 border-[#1E1311] rounded-3xl shadow-[6px_8px_0_#1E1311] overflow-hidden flex flex-col">
+                            
+                            <!-- HUD / Top Bar Game -->
+                            <div class="bg-[#1E1311] text-[#FAF3E0] px-4 py-3 flex items-center justify-between gap-2">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-[#B81D18] px-3 py-1 rounded-full border border-[#FAF3E0]/30 flex items-center gap-1.5">
+                                        <span class="text-sm">🍢</span>
+                                        <span class="font-display text-base sm:text-lg" id="hud-score">0</span>
+                                        <span class="text-[11px] font-bold uppercase text-[#FFD166]">Sate</span>
+                                    </div>
+                                    <div id="hud-hearts" class="flex items-center gap-1 text-base sm:text-lg" title="Nyawa Pedas">
+                                        ❤️❤️❤️
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-2">
+                                    <!-- Tombol Mute/Unmute Suara -->
+                                    <button onclick="toggleSound()" id="sound-toggle-btn" class="bg-[#FAF3E0] text-[#1E1311] text-xs font-extrabold px-3 py-1.5 rounded-full border border-[#1E1311] cursor-pointer hover:bg-[#FFD166] transition-colors" title="Suara Efek">
+                                        🔊 SFX
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Container Canvas Responsif -->
+                            <div id="canvas-container" class="relative w-full h-[380px] sm:h-[430px] bg-gradient-to-b from-[#FFF8E7] via-[#FAF3E0] to-[#F3E2BD] select-none overflow-hidden">
+                                <canvas id="game-canvas"></canvas>
+
+                                <!-- OVERLAY MULAI GAME -->
+                                <div id="game-start-overlay" class="absolute inset-0 bg-[#1E1311]/75 backdrop-blur-xs flex flex-col items-center justify-center p-6 text-center z-20">
+                                    <div class="bg-[#FAF3E0] border-3 border-[#1E1311] rounded-3xl p-6 max-w-sm w-full shadow-[6px_7px_0_#FF6B2B]">
+                                        <div class="text-4xl mb-2">😋🍢🔥</div>
+                                        <h3 class="font-display text-2xl text-[#B81D18] uppercase">SIAP MAKAN SATE?</h3>
+                                        <ul class="text-left text-xs font-bold text-[#1E1311] space-y-1.5 my-4 bg-[#F1E4C3] p-3.5 rounded-2xl border-2 border-[#1E1311]">
+                                            <li>🍢 <strong>Sate Taichan:</strong> +1 Sate</li>
+                                            <li>🍋 <strong>Jeruk Limau Segar:</strong> +3 Sate &amp; Adem</li>
+                                            <li>🌶️ <strong>Cabai Rawit Setan:</strong> Kepedasan (-1 ❤️)</li>
+                                        </ul>
+                                        <button onclick="startGame()" class="brutal-pill w-full bg-[#B81D18] text-[#FAF3E0] font-extrabold text-sm py-3.5 rounded-full cursor-pointer">
+                                            MULAI MAIN SEKARANG ▶
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- OVERLAY GAME OVER & KLAIM VOUCHER -->
+                                <div id="game-over-overlay" class="hidden absolute inset-0 bg-[#1E1311]/80 backdrop-blur-xs flex flex-col items-center justify-center p-5 text-center z-20">
+                                    <div class="bg-[#FAF3E0] border-3 border-[#1E1311] rounded-3xl p-6 max-w-sm w-full shadow-[6px_7px_0_#FFD166]">
+                                        <span class="inline-block bg-[#FF6B2B] text-[#FAF3E0] text-[11px] font-extrabold px-3 py-1 rounded-full border border-[#1E1311] uppercase">
+                                            WAKTU MAKAN SELESAI!
+                                        </span>
+                                        <h3 class="font-display text-2xl sm:text-3xl text-[#1E1311] mt-2">
+                                            KAMU MELAHAP <span id="final-score-text" class="text-[#B81D18]">0</span> SATE!
+                                        </h3>
+
+                                        <div id="gameover-reward-box" class="my-4 p-4 rounded-2xl border-2 border-[#1E1311] bg-[#F1E4C3]">
+                                            <p class="text-xs font-bold text-[#4A3B37]">Hadiah Voucher Terbuka:</p>
+                                            <div id="gameover-discount-badge" class="font-display text-3xl text-[#B81D18] my-1">
+                                                DISKON 0%
+                                            </div>
+                                            <p id="gameover-code-text" class="text-xs font-extrabold text-[#1E1311]">
+                                                Kumpulkan minimal 50 sate untuk diskon 5%!
+                                            </p>
+                                        </div>
+
+                                        <div class="flex flex-col gap-2.5">
+                                            <button id="gameover-claim-btn" onclick="claimGameReward()" class="hidden brutal-pill w-full bg-[#7AB82D] text-[#1E1311] font-extrabold text-xs sm:text-sm py-3 rounded-full cursor-pointer">
+                                                🎟️ KLAIM &amp; PAKAI KE KERANJANG
+                                            </button>
+                                            <button onclick="startGame()" class="brutal-pill w-full bg-[#B81D18] text-[#FAF3E0] font-extrabold text-xs sm:text-sm py-3 rounded-full cursor-pointer">
+                                                🔄 MAIN LAGI (KEJAR LEBIH BANYAK)
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Kontrol Tombol Sentuh Bawah Canvas (Untuk HP & Desktop) -->
+                            <div class="bg-[#FAF3E0] border-t-2 border-[#1E1311] p-3 flex items-center justify-between gap-3">
+                                <button id="btn-move-left" class="brutal-pill flex-1 bg-[#FFD166] active:bg-[#FF6B2B] text-[#1E1311] font-extrabold text-sm py-3 rounded-2xl select-none cursor-pointer">
+                                    ◀ GESER KIRI
+                                </button>
+                                <div class="hidden sm:block text-[11px] font-extrabold text-[#4A3B37] text-center px-2">
+                                    Drag Mouse / Touch<br>atau Panah ◀ ▶
+                                </div>
+                                <button id="btn-move-right" class="brutal-pill flex-1 bg-[#FFD166] active:bg-[#FF6B2B] text-[#1E1311] font-extrabold text-sm py-3 rounded-2xl select-none cursor-pointer">
+                                    GESER KANAN ▶
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KOLOM DASHBOARD PROGRESS & TIER HADIAH DISKON (5 Kolom) -->
+                    <div class="lg:col-span-5 flex flex-col justify-between gap-5">
+                        
+                        <!-- Kartu Progress Real-Time -->
+                        <div class="bg-[#FAF3E0] border-3 border-[#1E1311] rounded-3xl p-5 sm:p-6 shadow-[6px_8px_0_#1E1311]">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-extrabold uppercase tracking-wider text-[#B81D18]">
+                                    STATUS VOUCHER SAAT INI
+                                </span>
+                                <span id="current-tier-pill" class="bg-[#1E1311] text-[#FFD166] text-xs font-extrabold px-3 py-1 rounded-full">
+                                    0% OFF
+                                </span>
+                            </div>
+
+                            <div class="flex items-baseline gap-2 my-1">
+                                <span id="panel-sate-count" class="font-display text-4xl sm:text-5xl text-[#1E1311]">0</span>
+                                <span class="text-sm font-extrabold text-[#4A3B37]">Sate Terkumpul</span>
+                            </div>
+
+                            <!-- Progress Bar Menuju Kelipatan 50 Berikutnya -->
+                            <div class="mt-4">
+                                <div class="flex justify-between text-xs font-extrabold mb-1.5">
+                                    <span id="next-target-label" class="text-[#1E1311]">Target Berikutnya: 50 Sate (Diskon 5%)</span>
+                                    <span id="progress-percent-text" class="text-[#B81D18]">0/50</span>
+                                </div>
+                                <div class="w-full h-5 bg-[#F1E4C3] rounded-full border-2 border-[#1E1311] overflow-hidden p-0.5">
+                                    <div id="reward-progress-bar" class="h-full bg-[#FF6B2B] rounded-full transition-all duration-200" style="width: 0%;"></div>
+                                </div>
+                                <p id="sate-remaining-hint" class="text-[11px] font-bold text-[#4A3B37] mt-1.5">
+                                    Makan <strong>50 sate lagi</strong> untuk membuka voucher <strong>TAICHAN5 (5%)</strong>!
+                                </p>
+                            </div>
+
+                            <!-- Tombol Klaim Langsung dari Panel Kanan (Aktif begitu mencapai >= 50 sate) -->
+                            <button id="panel-claim-btn" onclick="claimGameReward()" disabled class="brutal-pill w-full mt-5 bg-[#D6C7B2] text-[#6E6259] font-extrabold text-xs sm:text-sm py-3.5 rounded-full cursor-not-allowed transition-colors">
+                                🔒 KUMPULKAN 50 SATE UNTUK KLAIM
+                            </button>
+                        </div>
+
+                        <!-- Kartu Daftar Tingkatan Hadiah (Kelipatan 50 Sate = +5% Diskon) -->
+                        <div class="bg-[#B81D18] text-[#FAF3E0] border-3 border-[#1E1311] rounded-3xl p-5 shadow-[6px_8px_0_#1E1311] flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-display text-xl uppercase tracking-wide text-[#FFD166] mb-3">
+                                    🏆 TANGGA HADIAH DISKON
+                                </h3>
+                                <div class="space-y-2 text-xs font-extrabold">
+                                    <div id="tier-row-50" class="flex items-center justify-between bg-[#8F130F] px-3.5 py-2 rounded-xl border border-[#FAF3E0]/20">
+                                        <span>🍢 50 Sate Taichan</span>
+                                        <span class="bg-[#FAF3E0] text-[#1E1311] px-2.5 py-0.5 rounded-full">DISKON 5% (TAICHAN5)</span>
+                                    </div>
+                                    <div id="tier-row-100" class="flex items-center justify-between bg-[#8F130F] px-3.5 py-2 rounded-xl border border-[#FAF3E0]/20">
+                                        <span>🍢 100 Sate Taichan</span>
+                                        <span class="bg-[#FAF3E0] text-[#1E1311] px-2.5 py-0.5 rounded-full">DISKON 10% (TAICHAN10)</span>
+                                    </div>
+                                    <div id="tier-row-150" class="flex items-center justify-between bg-[#8F130F] px-3.5 py-2 rounded-xl border border-[#FAF3E0]/20">
+                                        <span>🍢 150 Sate Taichan</span>
+                                        <span class="bg-[#FAF3E0] text-[#1E1311] px-2.5 py-0.5 rounded-full">DISKON 15% (TAICHAN15)</span>
+                                    </div>
+                                    <div id="tier-row-200" class="flex items-center justify-between bg-[#8F130F] px-3.5 py-2 rounded-xl border border-[#FAF3E0]/20">
+                                        <span>🔥 200+ Sate Taichan</span>
+                                        <span class="bg-[#FFD166] text-[#1E1311] px-2.5 py-0.5 rounded-full">+5% TIAP +50 SATE!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-[#FAF3E0]/85 font-semibold mt-3">
+                                *Setiap kelipatan 50 sate menambah +5% diskon (maksimal hingga 50% OFF!).
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =======================================================
+             BAGIAN MENU INTERAKTIF
+             ======================================================= -->
+        <section id="menu" class="bg-[#FAF3E0] px-5 sm:px-10 lg:px-14 py-12 sm:py-16 border-t-3 border-[#1E1311]">
+            <div class="max-w-5xl mx-auto">
+                
+                <!-- Header Section Menu -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+                    <div>
+                        <span class="inline-block bg-[#FF6B2B] text-[#FAF3E0] font-extrabold text-xs px-3.5 py-1 rounded-full border-2 border-[#1E1311] uppercase tracking-wider mb-2">
+                            Pilihan Favorit
+                        </span>
+                        <h2 class="font-display text-3xl sm:text-5xl text-[#B81D18] uppercase leading-none">
+                            MENU PEDAS GILA
+                        </h2>
+                    </div>
+
+                    <!-- Filter Level Kepedasan -->
+                    <div class="flex flex-wrap items-center gap-2" id="level-selector">
+                        <span class="text-xs font-extrabold uppercase tracking-wider text-[#1E1311] mr-1">Level Sambal:</span>
+                        <button onclick="setSpiceLevel('Santai (Lv.1)', this)" class="spice-btn brutal-pill bg-[#FAF3E0] text-[#1E1311] text-xs font-extrabold px-3.5 py-1.5 rounded-full cursor-pointer">
+                            🌶️ Lv. 1
+                        </button>
+                        <button onclick="setSpiceLevel('Nampol (Lv.2)', this)" class="spice-btn brutal-pill bg-[#B81D18] text-[#FAF3E0] text-xs font-extrabold px-3.5 py-1.5 rounded-full cursor-pointer">
+                            🌶️🌶️ Lv. 2
+                        </button>
+                        <button onclick="setSpiceLevel('Pedas Gila (Lv.3)', this)" class="spice-btn brutal-pill bg-[#FAF3E0] text-[#1E1311] text-xs font-extrabold px-3.5 py-1.5 rounded-full cursor-pointer">
+                            🔥 Lv. 3
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Grid Kartu Menu -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Item 1: Sate Taichan Spesial -->
+                    <article class="brutal-card p-5 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="bg-[#B81D18] text-[#FAF3E0] text-[11px] font-extrabold px-3 py-1 rounded-full border border-[#1E1311]">
+                                    BEST SELLER
+                                </span>
+                                <span class="font-display text-lg text-[#1E1311]">Rp 25.000</span>
+                            </div>
+                            <div class="h-32 bg-[#F1E4C3] rounded-2xl border-2 border-[#1E1311] mb-4 flex items-center justify-center text-5xl">
+                                🍢🔥
+                            </div>
+                            <h3 class="font-rounded font-bold text-xl text-[#1E1311]">Sate Taichan Spesial</h3>
+                            <p class="text-xs text-[#4A3B37] font-medium mt-1 leading-relaxed">
+                                10 tusuk daging dada ayam fillet juicy dibakar gurih dengan kaldu jamur, sambal rawit merah segar, dan jeruk limau.
+                            </p>
+                        </div>
+                        <button onclick="addToCart('Sate Taichan Spesial', 25000)" class="brutal-pill w-full mt-5 bg-[#B81D18] text-[#FAF3E0] font-extrabold text-xs py-3 rounded-full flex items-center justify-center gap-2 cursor-pointer">
+                            <span>+ TAMBAH KE KERANJANG</span>
+                        </button>
+                    </article>
+
+                    <!-- Item 2: Taichan Kulit Crispy -->
+                    <article class="brutal-card p-5 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="bg-[#FF6B2B] text-[#FAF3E0] text-[11px] font-extrabold px-3 py-1 rounded-full border border-[#1E1311]">
+                                    FAVORIT
+                                </span>
+                                <span class="font-display text-lg text-[#1E1311]">Rp 23.000</span>
+                            </div>
+                            <div class="h-32 bg-[#F1E4C3] rounded-2xl border-2 border-[#1E1311] mb-4 flex items-center justify-center text-5xl">
+                                🥓🌶️
+                            </div>
+                            <h3 class="font-rounded font-bold text-xl text-[#1E1311]">Taichan Kulit Crispy</h3>
+                            <p class="text-xs text-[#4A3B37] font-medium mt-1 leading-relaxed">
+                                10 tusuk kulit ayam pilihan yang dipanggang garing di luar, kenyal gurih di dalam. Cocok dicocol sambal ekstra!
+                            </p>
+                        </div>
+                        <button onclick="addToCart('Taichan Kulit Crispy', 23000)" class="brutal-pill w-full mt-5 bg-[#FAF3E0] hover:bg-[#B81D18] hover:text-[#FAF3E0] text-[#1E1311] font-extrabold text-xs py-3 rounded-full flex items-center justify-center gap-2 cursor-pointer">
+                            <span>+ TAMBAH KE KERANJANG</span>
+                        </button>
+                    </article>
+
+                    <!-- Item 3: Paket Mood On -->
+                    <article class="brutal-card p-5 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="bg-[#7AB82D] text-[#1E1311] text-[11px] font-extrabold px-3 py-1 rounded-full border border-[#1E1311]">
+                                    PAKET KOMPLIT
+                                </span>
+                                <span class="font-display text-lg text-[#1E1311]">Rp 32.000</span>
+                            </div>
+                            <div class="h-32 bg-[#F1E4C3] rounded-2xl border-2 border-[#1E1311] mb-4 flex items-center justify-center text-5xl">
+                                🍱🍋
+                            </div>
+                            <h3 class="font-rounded font-bold text-xl text-[#1E1311]">Paket Mood On</h3>
+                            <p class="text-xs text-[#4A3B37] font-medium mt-1 leading-relaxed">
+                                6 tusuk daging + 4 tusuk kulit + lontong daun pisang lembut + taburan bawang goreng renyah &amp; es teh manis.
+                            </p>
+                        </div>
+                        <button onclick="addToCart('Paket Mood On', 32000)" class="brutal-pill w-full mt-5 bg-[#FAF3E0] hover:bg-[#B81D18] hover:text-[#FAF3E0] text-[#1E1311] font-extrabold text-xs py-3 rounded-full flex items-center justify-center gap-2 cursor-pointer">
+                            <span>+ TAMBAH KE KERANJANG</span>
+                        </button>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- =======================================================
+             OUR STORY & CONTACT FOOTER SECTION
+             ======================================================= -->
+        <footer id="story" class="bg-[#B81D18] text-[#FAF3E0] px-5 sm:px-10 lg:px-14 py-12 border-t-3 border-[#1E1311]">
+            <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-7 space-y-3">
+                    <span class="inline-block bg-[#FAF3E0] text-[#B81D18] font-extrabold text-xs px-3 py-1 rounded-full border-2 border-[#1E1311]">
+                        OUR STORY
+                    </span>
+                    <h2 class="font-display text-3xl sm:text-4xl uppercase">
+                        TANPA KECAP, PENUH RASA!
+                    </h2>
+                    <p class="text-sm text-[#FAF3E0]/90 leading-relaxed">
+                        Berawal dari kecintaan terhadap jajanan malam kaki lima yang autentik, <strong>Taste Mood</strong> meracik Sate Taichan dengan marinasi rempah rahasia dan sambal cabai rawit segar yang diulek setiap hari—bukan sambal botol!
+                    </p>
+                </div>
+
+                <div id="contact" class="md:col-span-5 bg-[#FAF3E0] text-[#1E1311] p-6 rounded-3xl border-2 border-[#1E1311] shadow-[5px_6px_0_#1E1311] space-y-3">
+                    <h3 class="font-display text-xl text-[#B81D18]">KEDAI TASTE MOOD</h3>
+                    <p class="text-xs font-semibold">📍 Jl. Kuliner Malam No. 88, Banjarmasin</p>
+                    <p class="text-xs font-semibold">⏰ Buka Setiap Hari: 16.00 – 00.00 WITA</p>
+                    <p class="text-xs font-semibold">📱 WhatsApp Order: +62 812-3456-7890</p>
+                </div>
+            </div>
+
+            <div class="max-w-5xl mx-auto mt-10 pt-6 border-t border-[#FAF3E0]/25 flex flex-col sm:flex-row items-center justify-between text-xs text-[#FAF3E0]/80 gap-2">
+                <span>© 2026 Taste Mood Sate Taichan. All rights reserved.</span>
+                <span class="font-bold">Pedas Gila • Real Mood 🔥</span>
+            </div>
+        </footer>
+    </main>
+
+    <!-- =======================================================
+         DRAWER KERANJANG BELANJA INTERAKTIF + VOUCHER DISKON
+         ======================================================= -->
+    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-40 hidden transition-opacity"></div>
+    
+    <aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-[#FAF3E0] border-l-4 border-[#1E1311] z-50 transform translate-x-full transition-transform duration-300 flex flex-col justify-between p-5 sm:p-6 overflow-y-auto">
+        <div>
+            <!-- Header Drawer -->
+            <div class="flex items-center justify-between pb-4 border-b-2 border-[#1E1311]">
+                <div>
+                    <h2 class="font-display text-2xl text-[#B81D18]">KERANJANG MOOD</h2>
+                    <p id="selected-spice-label" class="text-xs font-bold text-[#1E1311]">Level Sambal: Nampol (Lv.2)</p>
+                </div>
+                <button onclick="toggleCart()" class="brutal-pill bg-[#FAF3E0] w-9 h-9 rounded-full font-extrabold text-sm flex items-center justify-center cursor-pointer">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Daftar Item Keranjang -->
+            <div id="cart-items-container" class="mt-4 space-y-3 max-h-[38vh] overflow-y-auto pr-1">
+                <!-- Diisi otomatis via JavaScript -->
+            </div>
+
+            <!-- Input & Status Voucher Diskon dari Game -->
+            <div class="mt-5 bg-[#F1E4C3] border-2 border-[#1E1311] rounded-2xl p-3.5 space-y-2.5">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-extrabold uppercase text-[#1E1311]">🎟️ Voucher Diskon Game</span>
+                    <a href="#game-zone" onclick="toggleCart()" class="text-[11px] font-extrabold text-[#B81D18] underline">
+                        Cari Diskon Lagi →
+                    </a>
+                </div>
+
+                <div class="flex gap-2">
+                    <input id="voucher-input" type="text" placeholder="Contoh: TAICHAN5" class="flex-1 bg-[#FAF3E0] border-2 border-[#1E1311] rounded-xl px-3 py-2 text-xs font-extrabold uppercase focus:outline-none">
+                    <button onclick="applyManualVoucher()" class="brutal-pill bg-[#1E1311] text-[#FAF3E0] text-xs font-extrabold px-3.5 py-2 rounded-xl cursor-pointer">
+                        PAKAI
+                    </button>
+                </div>
+
+                <!-- Badge Voucher Aktif -->
+                <div id="active-voucher-banner" class="hidden bg-[#7AB82D] text-[#1E1311] border-2 border-[#1E1311] rounded-xl px-3 py-2 flex items-center justify-between text-xs font-extrabold">
+                    <span id="active-voucher-text">Voucher TAICHAN5 (5% OFF) Aktif!</span>
+                    <button onclick="removeVoucher()" class="underline text-[11px] cursor-pointer">Hapus</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Rincian Harga & Checkout -->
+        <div class="pt-4 mt-4 border-t-2 border-[#1E1311] space-y-2.5">
+            <div class="flex justify-between items-center text-xs font-bold text-[#4A3B37]">
+                <span>Subtotal</span>
+                <span id="cart-subtotal-price">Rp 25.000</span>
+            </div>
+            <div id="cart-discount-row" class="hidden flex justify-between items-center text-xs font-extrabold text-[#B81D18]">
+                <span id="cart-discount-label">Diskon Voucher (0%)</span>
+                <span id="cart-discount-amount">- Rp 0</span>
+            </div>
+            <div class="flex justify-between items-center font-extrabold text-lg pt-1">
+                <span>Total Bayar</span>
+                <span id="cart-total-price" class="font-display text-2xl text-[#B81D18]">Rp 25.000</span>
+            </div>
+            <button onclick="checkoutOrder()" class="brutal-pill w-full bg-[#B81D18] text-[#FAF3E0] font-extrabold text-sm py-3.5 rounded-full cursor-pointer mt-2">
+                PESAN SEKARANG →
+            </button>
+        </div>
+    </aside>
+
+    <!-- TOAST NOTIFIKASI -->
+    <div id="toast-box" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-[#1E1311] text-[#FAF3E0] border-2 border-[#FAF3E0] px-5 py-3 rounded-full shadow-lg text-xs sm:text-sm font-bold flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300">
+        <span>🔥</span>
+        <span id="toast-message">Item ditambahkan ke keranjang!</span>
+    </div>
+
+    <!-- =======================================================
+         JAVASCRIPT: KERANJANG, VOUCHER & MINI GAME ENGINE
+         ======================================================= -->
+    <script>
+        /* =========================================================
+           1. STATE KERANJANG BELANJA & SISTEM VOUCHER DISKON
+           ========================================================= */
+        let cart = [
+            { name: 'Sate Taichan Spesial', price: 25000, qty: 1 }
+        ];
+        let currentSpiceLevel = 'Nampol (Lv.2)';
+        let appliedVoucher = null; // { code: 'TAICHAN5', percent: 5 }
+
+        function formatRupiah(angka) {
+            return 'Rp ' + Math.round(angka).toLocaleString('id-ID');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast-box');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.textContent = msg;
+            toast.classList.remove('opacity-0', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-4');
+                toast.classList.remove('opacity-100', 'translate-y-0');
+            }, 2800);
+        }
+
+        function setSpiceLevel(levelName, btnEl) {
+            currentSpiceLevel = levelName;
+            document.getElementById('selected-spice-label').textContent = 'Level Sambal: ' + levelName;
+
+            document.querySelectorAll('.spice-btn').forEach(btn => {
+                btn.classList.remove('bg-[#B81D18]', 'text-[#FAF3E0]');
+                btn.classList.add('bg-[#FAF3E0]', 'text-[#1E1311]');
+            });
+
+            btnEl.classList.remove('bg-[#FAF3E0]', 'text-[#1E1311]');
+            btnEl.classList.add('bg-[#B81D18]', 'text-[#FAF3E0]');
+            showToast('Level sambal diubah ke ' + levelName);
+        }
+
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('cart-overlay');
+            const isClosed = drawer.classList.contains('translate-x-full');
+
+            if (isClosed) {
+                drawer.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function addToCart(name, price) {
+            const existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ name, price, qty: 1 });
+            }
+            renderCart();
+            showToast(name + ' masuk keranjang!');
+        }
+
+        function quickOrderSpesial() {
+            addToCart('Sate Taichan Spesial', 25000);
+            toggleCart();
+        }
+
+        function updateQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
+            }
+            renderCart();
+        }
+
+        // Terapkan voucher dari kode (misal TAICHAN5, TAICHAN10, TAICHAN15, dst.)
+        function applyVoucherCode(codeStr) {
+            const cleanCode = codeStr.trim().toUpperCase();
+            const match = cleanCode.match(/^TAICHAN(\d+)$/);
+
+            if (match) {
+                const pct = parseInt(match[1], 10);
+                if (pct >= 5 && pct <= 50 && pct % 5 === 0) {
+                    appliedVoucher = { code: cleanCode, percent: pct };
+                    document.getElementById('voucher-input').value = cleanCode;
+                    renderCart();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function applyManualVoucher() {
+            const inputVal = document.getElementById('voucher-input').value;
+            if (!inputVal.trim()) {
+                showToast('Masukkan kode voucher terlebih dahulu!');
+                return;
+            }
+            if (applyVoucherCode(inputVal)) {
+                showToast('Voucher ' + appliedVoucher.code + ' (' + appliedVoucher.percent + '% OFF) berhasil dipakai!');
+            } else {
+                showToast('Kode voucher tidak valid. Mainkan game untuk dapat kode!');
+            }
+        }
+
+        function removeVoucher() {
+            appliedVoucher = null;
+            document.getElementById('voucher-input').value = '';
+            renderCart();
+            showToast('Voucher dihapus dari keranjang.');
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            const badge = document.getElementById('cart-badge');
+            const subtotalEl = document.getElementById('cart-subtotal-price');
+            const discountRow = document.getElementById('cart-discount-row');
+            const discountLabel = document.getElementById('cart-discount-label');
+            const discountAmountEl = document.getElementById('cart-discount-amount');
+            const totalEl = document.getElementById('cart-total-price');
+            const activeBanner = document.getElementById('active-voucher-banner');
+            const activeBannerText = document.getElementById('active-voucher-text');
+
+            let totalQty = 0;
+            let subtotal = 0;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-xs font-semibold text-[#4A3B37]">
+                        Keranjang masih kosong nih. Yuk pilih Sate Taichan favoritmu! 🍢
+                    </div>
+                `;
+            } else {
+                container.innerHTML = cart.map((item, idx) => {
+                    totalQty += item.qty;
+                    subtotal += item.price * item.qty;
+                    return `
+                        <div class="bg-[#F1E4C3] border-2 border-[#1E1311] rounded-2xl p-3 flex items-center justify-between">
+                            <div>
+                                <h4 class="font-rounded font-bold text-sm text-[#1E1311]">${item.name}</h4>
+                                <p class="text-xs font-extrabold text-[#B81D18]">${formatRupiah(item.price)}</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="updateQty(${idx}, -1)" class="w-7 h-7 rounded-full bg-[#FAF3E0] border-2 border-[#1E1311] font-extrabold text-xs cursor-pointer">-</button>
+                                <span class="font-extrabold text-sm w-5 text-center">${item.qty}</span>
+                                <button onclick="updateQty(${idx}, 1)" class="w-7 h-7 rounded-full bg-[#B81D18] text-[#FAF3E0] border-2 border-[#1E1311] font-extrabold text-xs cursor-pointer">+</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            let discountNominal = 0;
+            if (appliedVoucher && subtotal > 0) {
+                discountNominal = Math.round(subtotal * (appliedVoucher.percent / 100));
+                discountRow.classList.remove('hidden');
+                discountLabel.textContent = `Diskon ${appliedVoucher.code} (${appliedVoucher.percent}%)`;
+                discountAmountEl.textContent = '- ' + formatRupiah(discountNominal);
+
+                activeBanner.classList.remove('hidden');
+                activeBannerText.textContent = `🎉 ${appliedVoucher.code} (${appliedVoucher.percent}% OFF) Aktif!`;
+            } else {
+                discountRow.classList.add('hidden');
+                if (appliedVoucher) {
+                    activeBanner.classList.remove('hidden');
+                    activeBannerText.textContent = `🎉 ${appliedVoucher.code} (${appliedVoucher.percent}% OFF) Siap Dipakai!`;
+                } else {
+                    activeBanner.classList.add('hidden');
+                }
+            }
+
+            const finalTotal = Math.max(0, subtotal - discountNominal);
+            badge.textContent = totalQty;
+            subtotalEl.textContent = formatRupiah(subtotal);
+            totalEl.textContent = formatRupiah(finalTotal);
+        }
+
+        function checkoutOrder() {
+            if (cart.length === 0) {
+                showToast('Pilih menu terlebih dahulu ya!');
+                return;
+            }
+            toggleCart();
+            const promoInfo = appliedVoucher ? ` dengan diskon ${appliedVoucher.percent}% (${appliedVoucher.code})` : '';
+            showToast(`Pesanan diterima${promoInfo}! Sate Taichan (${currentSpiceLevel}) sedang dibakar 🔥`);
+            cart = [];
+            appliedVoucher = null;
+            document.getElementById('voucher-input').value = '';
+            renderCart();
+        }
+
+        /* =========================================================
+           2. WEB AUDIO API (EFEK SUARA RETRO RINGAN TANPA FILE LUAR)
+           ========================================================= */
+        let soundEnabled = true;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (AudioContextClass) {
+                    audioCtx = new AudioContextClass();
+                }
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playTone(freq, type, duration, slideTo = null) {
+            if (!soundEnabled) return;
+            try {
+                initAudio();
+                if (!audioCtx) return;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                if (slideTo) {
+                    osc.frequency.exponentialRampToValueAtTime(slideTo, audioCtx.currentTime + duration);
+                }
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                // Abaikan jika browser memblokir audio
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('sound-toggle-btn');
+            btn.textContent = soundEnabled ? '🔊 SFX' : '🔇 MUTE';
+            if (soundEnabled) playTone(520, 'sine', 0.1);
+        }
+
+        /* =========================================================
+           3. MINI GAME ENGINE: TANGKAP & MAKAN SATE TAICHAN
+           ========================================================= */
+        const canvas = document.getElementById('game-canvas');
+        const ctx = canvas.getContext('2d');
+        const canvasContainer = document.getElementById('canvas-container');
+
+        let gameState = 'IDLE'; // IDLE | PLAYING | GAMEOVER
+        let sateScore = 0;
+        let bestSateScore = 0;
+        let lives = 3;
+        let fallingItems = [];
+        let floatingTexts = [];
+        let spawnTimer = 0;
+        let lastFrameTime = 0;
+        let animFrameId = null;
+
+        // Properti Karakter Pemain di Bawah
+        const player = {
+            x: 200,
+            y: 340,
+            width: 84,
+            height: 82,
+            speed: 520,
+            vx: 0,
+            mouthOpenTimer: 0,
+            spicyTimer: 0,
+            happyTimer: 0
+        };
+
+        // Kontrol Input Keyboard & Tombol Layar
+        const keys = { left: false, right: false };
+        let isDragging = false;
+
+        function resizeGameCanvas() {
+            const rect = canvasContainer.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            player.y = canvas.height - 86;
+            if (player.x > canvas.width - player.width / 2) {
+                player.x = canvas.width / 2;
+            }
+            if (gameState !== 'PLAYING') {
+                drawIdleScene();
+            }
+        }
+
+        window.addEventListener('resize', resizeGameCanvas);
+
+        // Hitung Diskon Berdasarkan Sate (Setiap kelipatan 50 sate = +5% diskon, maks 50%)
+        function calculateDiscountInfo(score) {
+            const tier = Math.floor(score / 50);
+            const discountPercent = Math.min(50, tier * 5);
+            const voucherCode = discountPercent > 0 ? `TAICHAN${discountPercent}` : null;
+            const nextMilestone = (tier + 1) * 50;
+            const currentTierBase = tier * 50;
+            const progressInTier = score - currentTierBase;
+            return {
+                tier,
+                discountPercent,
+                voucherCode,
+                nextMilestone,
+                progressInTier,
+                remaining: nextMilestone - score
+            };
+        }
+
+        // Perbarui UI Panel Progress & Tangga Hadiah
+        function updateRewardUI() {
+            const activeScore = Math.max(sateScore, bestSateScore);
+            const info = calculateDiscountInfo(sateScore);
+            const bestInfo = calculateDiscountInfo(activeScore);
+
+            document.getElementById('hud-score').textContent = sateScore;
+            document.getElementById('panel-sate-count').textContent = sateScore;
+            document.getElementById('current-tier-pill').textContent = `${bestInfo.discountPercent}% OFF`;
+
+            const pctBar = Math.min(100, (info.progressInTier / 50) * 100);
+            document.getElementById('reward-progress-bar').style.width = pctBar + '%';
+            document.getElementById('progress-percent-text').textContent = `${info.progressInTier}/50`;
+
+            if (info.discountPercent >= 50) {
+                document.getElementById('next-target-label').textContent = 'MAX VOUCHER TERCAPAI (50% OFF)!';
+                document.getElementById('sate-remaining-hint').innerHTML = 'Keren! Kamu sudah membuka diskon maksimal <strong>TAICHAN50 (50%)</strong>!';
+            } else {
+                const nextPct = (info.tier + 1) * 5;
+                document.getElementById('next-target-label').textContent = `Target: ${info.nextMilestone} Sate (${nextPct}% OFF)`;
+                document.getElementById('sate-remaining-hint').innerHTML = `Makan <strong>${info.remaining} sate lagi</strong> untuk membuka voucher <strong>TAICHAN${nextPct} (${nextPct}%)</strong>!`;
+            }
+
+            // Highlight baris tier yang sudah terbuka
+            [50, 100, 150, 200].forEach(milestone => {
+                const row = document.getElementById('tier-row-' + milestone);
+                if (row) {
+                    if (activeScore >= milestone) {
+                        row.classList.remove('bg-[#8F130F]');
+                        row.classList.add('bg-[#7AB82D]', 'text-[#1E1311]');
+                    } else {
+                        row.classList.add('bg-[#8F130F]');
+                        row.classList.remove('bg-[#7AB82D]', 'text-[#1E1311]');
+                    }
+                }
+            });
+
+            // Aktifkan tombol klaim di panel kanan jika sudah punya diskon >= 5%
+            const panelClaimBtn = document.getElementById('panel-claim-btn');
+            if (bestInfo.discountPercent >= 5) {
+                panelClaimBtn.disabled = false;
+                panelClaimBtn.classList.remove('bg-[#D6C7B2]', 'text-[#6E6259]', 'cursor-not-allowed');
+                panelClaimBtn.classList.add('bg-[#7AB82D]', 'text-[#1E1311]', 'cursor-pointer');
+                panelClaimBtn.textContent = `🎟️ KLAIM VOUCHER ${bestInfo.voucherCode} (${bestInfo.discountPercent}% OFF)`;
+            } else {
+                panelClaimBtn.disabled = true;
+                panelClaimBtn.classList.add('bg-[#D6C7B2]', 'text-[#6E6259]', 'cursor-not-allowed');
+                panelClaimBtn.classList.remove('bg-[#7AB82D]', 'text-[#1E1311]', 'cursor-pointer');
+                panelClaimBtn.textContent = '🔒 KUMPULKAN 50 SATE UNTUK KLAIM';
+            }
+        }
+
+        function updateHeartsUI() {
+            const heartsEl = document.getElementById('hud-hearts');
+            let str = '';
+            for (let i = 0; i < 3; i++) {
+                str += i < lives ? '❤️' : '🖤';
+            }
+            heartsEl.textContent = str;
+        }
+
+        // Mulai / Reset Permainan
+        function startGame() {
+            initAudio();
+            sateScore = 0;
+            lives = 3;
+            fallingItems = [];
+            floatingTexts = [];
+            spawnTimer = 0;
+            player.x = canvas.width / 2;
+            player.mouthOpenTimer = 0;
+            player.spicyTimer = 0;
+            player.happyTimer = 0;
+
+            gameState = 'PLAYING';
+            document.getElementById('game-start-overlay').classList.add('hidden');
+            document.getElementById('game-over-overlay').classList.add('hidden');
+
+            updateHeartsUI();
+            updateRewardUI();
+            playTone(440, 'triangle', 0.15, 660);
+
+            lastFrameTime = performance.now();
+            if (animFrameId) cancelAnimationFrame(animFrameId);
+            animFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        // Akhiri Permainan & Tampilkan Ringkasan Hadiah
+        function endGame() {
+            gameState = 'GAMEOVER';
+            if (sateScore > bestSateScore) {
+                bestSateScore = sateScore;
+            }
+            updateRewardUI();
+            playTone(300, 'sawtooth', 0.35, 110);
+
+            const info = calculateDiscountInfo(bestSateScore);
+            document.getElementById('final-score-text').textContent = sateScore;
+            document.getElementById('gameover-discount-badge').textContent = `DISKON ${info.discountPercent}%`;
+
+            const claimBtn = document.getElementById('gameover-claim-btn');
+            const codeText = document.getElementById('gameover-code-text');
+
+            if (info.discountPercent >= 5) {
+                codeText.innerHTML = `Kode Voucher: <span class="bg-[#1E1311] text-[#FFD166] px-2 py-0.5 rounded">${info.voucherCode}</span>`;
+                claimBtn.classList.remove('hidden');
+            } else {
+                codeText.textContent = `Kurang ${50 - sateScore} sate lagi untuk membuka Diskon 5%!`;
+                claimBtn.classList.add('hidden');
+            }
+
+            document.getElementById('game-over-overlay').classList.remove('hidden');
+        }
+
+        // Klaim Hadiah & Langsung Buka Keranjang Belanja
+        function claimGameReward() {
+            const activeScore = Math.max(sateScore, bestSateScore);
+            const info = calculateDiscountInfo(activeScore);
+            if (info.discountPercent < 5 || !info.voucherCode) {
+                showToast('Kumpulkan minimal 50 sate terlebih dahulu!');
+                return;
+            }
+
+            // Jika keranjang masih kosong, otomatis tambahkan 1 porsi Sate Taichan Spesial agar user langsung lihat potongannya
+            if (cart.length === 0) {
+                cart.push({ name: 'Sate Taichan Spesial', price: 25000, qty: 1 });
+            }
+
+            applyVoucherCode(info.voucherCode);
+            if (gameState === 'PLAYING') {
+                gameState = 'GAMEOVER';
+                document.getElementById('game-over-overlay').classList.remove('hidden');
+            }
+            toggleCart();
+            showToast(`🎉 Voucher ${info.voucherCode} (${info.discountPercent}% OFF) otomatis terpasang!`);
+        }
+
+        // Munculkan Item Jatuh (Sate Taichan, Jeruk Limau, atau Cabai Super Pedas)
+        function spawnFallingItem() {
+            const margin = 36;
+            const x = margin + Math.random() * (canvas.width - margin * 2);
+            const speedMultiplier = 1 + Math.min(1.6, sateScore / 140);
+            const rand = Math.random();
+
+            let type = 'SATE'; // 72% Sate Taichan
+            if (rand > 0.86) {
+                type = 'CHILI'; // 14% Cabai Super Pedas (Rintangan)
+            } else if (rand > 0.72) {
+                type = 'LIME'; // 14% Jeruk Limau Bonus (+3 Sate)
+            }
+
+            fallingItems.push({
+                x,
+                y: -35,
+                radius: 22,
+                type,
+                vy: (185 + Math.random() * 95) * speedMultiplier,
+                rotation: (Math.random() - 0.5) * 0.5,
+                vRot: (Math.random() - 0.5) * 2.2
+            });
+        }
+
+        function addFloatingText(x, y, text, color) {
+            floatingTexts.push({
+                x,
+                y,
+                text,
+                color,
+                alpha: 1,
+                vy: -65
+            });
+        }
+
+        // Loop Utama Game
+        function gameLoop(timestamp) {
+            if (gameState !== 'PLAYING') return;
+
+            const dt = Math.min(0.05, (timestamp - lastFrameTime) / 1000);
+            lastFrameTime = timestamp;
+
+            updateGame(dt);
+            drawGame();
+
+            animFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        function updateGame(dt) {
+            // Gerak karakter pemain via keyboard/tombol
+            if (keys.left) player.x -= player.speed * dt;
+            if (keys.right) player.x += player.speed * dt;
+
+            // Batasi posisi karakter di dalam arena
+            const halfW = player.width / 2;
+            if (player.x < halfW + 8) player.x = halfW + 8;
+            if (player.x > canvas.width - halfW - 8) player.x = canvas.width - halfW - 8;
+
+            // Timer ekspresi karakter
+            if (player.mouthOpenTimer > 0) player.mouthOpenTimer -= dt;
+            if (player.spicyTimer > 0) player.spicyTimer -= dt;
+            if (player.happyTimer > 0) player.happyTimer -= dt;
+
+            // Spawn item berkala (makin cepat seiring skor bertambah)
+            const spawnInterval = Math.max(0.28, 0.68 - (sateScore * 0.0022));
+            spawnTimer += dt;
+            if (spawnTimer >= spawnInterval) {
+                spawnTimer = 0;
+                spawnFallingItem();
+            }
+
+            // Update posisi item jatuh & cek tabrakan dengan mulut/piring karakter
+            const catchZoneY = player.y + 15;
+            for (let i = fallingItems.length - 1; i >= 0; i--) {
+                const item = fallingItems[i];
+                item.y += item.vy * dt;
+                item.rotation += item.vRot * dt;
+
+                // Buka mulut otomatis jika ada sate mendekat
+                if (item.type !== 'CHILI' && Math.abs(item.x - player.x) < 65 && item.y > player.y - 90 && item.y < player.y + 20) {
+                    player.mouthOpenTimer = 0.18;
+                }
+
+                // Cek tangkapan
+                const dx = Math.abs(item.x - player.x);
+                const dy = Math.abs(item.y - catchZoneY);
+
+                if (dx < 46 && dy < 34) {
+                    const prevTier = Math.floor(sateScore / 50);
+
+                    if (item.type === 'SATE') {
+                        sateScore += 1;
+                        player.happyTimer = 0.35;
+                        addFloatingText(item.x, player.y - 20, '+1 NYAM!', '#1E1311');
+                        playTone(580, 'sine', 0.09, 780);
+                    } else if (item.type === 'LIME') {
+                        sateScore += 3;
+                        player.happyTimer = 0.5;
+                        player.spicyTimer = 0;
+                        addFloatingText(item.x, player.y - 24, '+3 SEGAR!', '#4D8B14');
+                        playTone(660, 'triangle', 0.14, 980);
+                    } else if (item.type === 'CHILI') {
+                        lives -= 1;
+                        player.spicyTimer = 0.75;
+                        addFloatingText(item.x, player.y - 24, 'HUHAH! PEDAS!', '#B81D18');
+                        playTone(180, 'sawtooth', 0.22, 95);
+                        updateHeartsUI();
+                    }
+
+                    if (sateScore > bestSateScore) {
+                        bestSateScore = sateScore;
+                    }
+
+                    // Cek jika baru saja menembus kelipatan 50 sate!
+                    const newTier = Math.floor(sateScore / 50);
+                    if (newTier > prevTier && newTier <= 10) {
+                        const unlockedPct = newTier * 5;
+                        addFloatingText(canvas.width / 2, canvas.height / 2, `🎉 DISKON ${unlockedPct}% TERBUKA!`, '#B81D18');
+                        playTone(523, 'triangle', 0.12, 1046);
+                        showToast(`Mantap! Kamu membuka voucher TAICHAN${unlockedPct} (${unlockedPct}% OFF)!`);
+                    }
+
+                    updateRewardUI();
+                    fallingItems.splice(i, 1);
+
+                    if (lives <= 0) {
+                        endGame();
+                        return;
+                    }
+                    continue;
+                }
+
+                // Hapus item jika melewati batas bawah layar
+                if (item.y > canvas.height + 40) {
+                    fallingItems.splice(i, 1);
+                }
+            }
+
+            // Update teks melayang
+            for (let i = floatingTexts.length - 1; i >= 0; i--) {
+                const ft = floatingTexts[i];
+                ft.y += ft.vy * dt;
+                ft.alpha -= dt * 1.35;
+                if (ft.alpha <= 0) {
+                    floatingTexts.splice(i, 1);
+                }
+            }
+        }
+
+        /* =========================================================
+           4. RENDERING GRAFIS KARTUN RETRO DI CANVAS
+           ========================================================= */
+        function drawBackgroundGrid() {
+            // Lantai meja warung di bagian bawah canvas
+            const floorY = canvas.height - 24;
+            ctx.fillStyle = '#E6D2A8';
+            ctx.fillRect(0, floorY, canvas.width, 24);
+            ctx.strokeStyle = '#1E1311';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(0, floorY);
+            ctx.lineTo(canvas.width, floorY);
+            ctx.stroke();
+        }
+
+        // Gambar Karakter Orang Lucu Bergaya Retro-Kartun di Bawah
+        function drawRetroCharacter() {
+            const cx = player.x;
+            const cy = player.y;
+
+            ctx.save();
+            ctx.translate(cx, cy);
+
+            // Efek getar jika kepedasan
+            if (player.spicyTimer > 0) {
+                ctx.translate((Math.random() - 0.5) * 6, 0);
+            }
+
+            // Badan / Kaos Merah Taste Mood
+            ctx.fillStyle = '#B81D18';
+            ctx.strokeStyle = '#1E1311';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.roundRect(-28, 22, 56, 40, [18, 18, 6, 6]);
+            ctx.fill();
+            ctx.stroke();
+
+            // Tulisan kecil di kaos
+            ctx.fillStyle = '#FAF3E0';
+            ctx.font = '800 9px "Plus Jakarta Sans", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('TAICHAN', 0, 44);
+
+            // Kepala Bulat Kartun
+            ctx.fillStyle = player.spicyTimer > 0 ? '#FF8A7A' : '#FFD3A8';
+            ctx.beginPath();
+            ctx.arc(0, 2, 27, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Topi Terbalik Retro Oranye
+            ctx.fillStyle = '#FF6B2B';
+            ctx.beginPath();
+            ctx.arc(0, -4, 26, Math.PI, 0);
+            ctx.fill();
+            ctx.stroke();
+            // Lidah topi ke samping
+            ctx.fillStyle = '#1E1311';
+            ctx.beginPath();
+            ctx.roundRect(14, -12, 22, 7, 4);
+            ctx.fill();
+
+            // Mata Kartun
+            ctx.fillStyle = '#1E1311';
+            if (player.spicyTimer > 0) {
+                // Mata silang kepedasan (> <)
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.moveTo(-14, -3); ctx.lineTo(-8, 1); ctx.lineTo(-14, 5);
+                ctx.moveTo(14, -3); ctx.lineTo(8, 1); ctx.lineTo(14, 5);
+                ctx.stroke();
+            } else {
+                ctx.beginPath();
+                ctx.arc(-10, 0, 3.2, 0, Math.PI * 2);
+                ctx.arc(10, 0, 3.2, 0, Math.PI * 2);
+                ctx.fill();
+                // Kilau mata
+                ctx.fillStyle = '#FAF3E0';
+                ctx.beginPath();
+                ctx.arc(-11, -1, 1.2, 0, Math.PI * 2);
+                ctx.arc(9, -1, 1.2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Mulut (Terbuka lebar siap melahap sate!)
+            if (player.spicyTimer > 0) {
+                // Mulut kepedasan keluar asap/lidah
+                ctx.fillStyle = '#8F130F';
+                ctx.beginPath();
+                ctx.ellipse(0, 14, 11, 8, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            } else if (player.mouthOpenTimer > 0 || player.happyTimer > 0) {
+                // Mulut mangap lebar siap makan
+                ctx.fillStyle = '#8F130F';
+                ctx.beginPath();
+                ctx.arc(0, 10, 12, 0, Math.PI, false);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                // Lidah
+                ctx.fillStyle = '#FF6B6B';
+                ctx.beginPath();
+                ctx.arc(0, 16, 6, Math.PI, 0, false);
+                ctx.fill();
+            } else {
+                // Senyum siap tangkap
+                ctx.strokeStyle = '#1E1311';
+                ctx.lineWidth = 2.8;
+                ctx.beginPath();
+                ctx.arc(0, 9, 8, 0.15 * Math.PI, 0.85 * Math.PI);
+                ctx.stroke();
+            }
+
+            // Piring Putih di Tangan Karakter untuk Menadah Sate
+            ctx.fillStyle = '#FAF3E0';
+            ctx.strokeStyle = '#1E1311';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.ellipse(0, 26, 38, 8, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Tangan Kiri & Kanan Memegang Piring
+            ctx.fillStyle = player.spicyTimer > 0 ? '#FF8A7A' : '#FFD3A8';
+            ctx.beginPath();
+            ctx.arc(-34, 27, 6.5, 0, Math.PI * 2);
+            ctx.arc(34, 27, 6.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        // Gambar Item Jatuh (Tusuk Sate Taichan, Jeruk Limau, Cabai Pedas)
+        function drawFallingItem(item) {
+            ctx.save();
+            ctx.translate(item.x, item.y);
+            ctx.rotate(item.rotation);
+
+            if (item.type === 'SATE') {
+                // Tusuk Bambu
+                ctx.strokeStyle = '#C88A4B';
+                ctx.lineWidth = 3.5;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(0, -26);
+                ctx.lineTo(0, 26);
+                ctx.stroke();
+
+                // 3 Potong Daging Ayam Taichan
+                const offsets = [-12, 0, 12];
+                offsets.forEach(oy => {
+                    ctx.fillStyle = '#F3D19E';
+                    ctx.strokeStyle = '#1E1311';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.roundRect(-11, oy - 5, 22, 10, 5);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Olesan sambal merah di atas daging
+                    ctx.fillStyle = '#B81D18';
+                    ctx.beginPath();
+                    ctx.arc(0, oy, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            } else if (item.type === 'LIME') {
+                // Jeruk Limau Segar
+                ctx.fillStyle = '#7AB82D';
+                ctx.strokeStyle = '#1E1311';
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.arc(0, 0, 17, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.fillStyle = '#D9F296';
+                ctx.beginPath();
+                ctx.arc(0, 0, 12, 0, Math.PI * 2);
+                ctx.fill();
+            } else if (item.type === 'CHILI') {
+                // Cabai Rawit Setan Merah Menyala
+                ctx.fillStyle = '#E61919';
+                ctx.strokeStyle = '#1E1311';
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.moveTo(-6, -12);
+                ctx.quadraticCurveTo(14, -4, 4, 18);
+                ctx.quadraticCurveTo(-8, 6, -6, -12);
+                ctx.fill();
+                ctx.stroke();
+
+                // Tangkai hijau
+                ctx.strokeStyle = '#4D8B14';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(-6, -12);
+                ctx.lineTo(-10, -19);
+                ctx.stroke();
+            }
+
+            ctx.restore();
+        }
+
+        function drawGame() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackgroundGrid();
+
+            // Gambar semua item yang jatuh
+            fallingItems.forEach(drawFallingItem);
+
+            // Gambar karakter pemain di bawah
+            drawRetroCharacter();
+
+            // Gambar teks skor melayang
+            floatingTexts.forEach(ft => {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, ft.alpha);
+                ctx.font = '800 15px "Fredoka", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.strokeStyle = '#FAF3E0';
+                ctx.lineWidth = 4;
+                ctx.strokeText(ft.text, ft.x, ft.y);
+                ctx.fillStyle = ft.color;
+                ctx.fillText(ft.text, ft.x, ft.y);
+                ctx.restore();
+            });
+        }
+
+        function drawIdleScene() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackgroundGrid();
+            drawRetroCharacter();
+        }
+
+        /* =========================================================
+           5. EVENT LISTENER KONTROL MOUSE, TOUCH & KEYBOARD
+           ========================================================= */
+        function setPlayerPositionFromClientX(clientX) {
+            const rect = canvas.getBoundingClientRect();
+            const relX = clientX - rect.left;
+            const halfW = player.width / 2;
+            player.x = Math.max(halfW + 8, Math.min(canvas.width - halfW - 8, relX));
+            if (gameState !== 'PLAYING') drawIdleScene();
+        }
+
+        // Mouse Drag / Move
+        canvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            setPlayerPositionFromClientX(e.clientX);
+        });
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging || gameState === 'PLAYING') {
+                // Izinkan karakter mengikuti gerakan mouse saat berada di atas canvas
+                const rect = canvas.getBoundingClientRect();
+                if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                    setPlayerPositionFromClientX(e.clientX);
+                }
+            }
+        });
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Touch Drag (Layar Sentuh HP/Tablet)
+        canvas.addEventListener('touchstart', (e) => {
+            if (e.touches.length > 0) {
+                setPlayerPositionFromClientX(e.touches[0].clientX);
+            }
+        }, { passive: true });
+
+        canvas.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                setPlayerPositionFromClientX(e.touches[0].clientX);
+            }
+        }, { passive: true });
+
+        // Keyboard Panah Kiri/Kanan & A/D
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+                keys.left = true;
+            }
+            if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+                keys.right = true;
+            }
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+                keys.left = false;
+            }
+            if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+                keys.right = false;
+            }
+        });
+
+        // Tombol Sentuh Kiri/Kanan di Bawah Canvas
+        const btnLeft = document.getElementById('btn-move-left');
+        const btnRight = document.getElementById('btn-move-right');
+
+        ['mousedown', 'touchstart'].forEach(evt => {
+            btnLeft.addEventListener(evt, (e) => { e.preventDefault(); keys.left = true; });
+            btnRight.addEventListener(evt, (e) => { e.preventDefault(); keys.right = true; });
+        });
+        ['mouseup', 'mouseleave', 'touchend'].forEach(evt => {
+            btnLeft.addEventListener(evt, () => { keys.left = false; });
+            btnRight.addEventListener(evt, () => { keys.right = false; });
+        });
+
+        // Inisialisasi saat halaman selesai dimuat
+        window.onload = function () {
+            renderCart();
+            resizeGameCanvas();
+            updateRewardUI();
+        };
+    </script>
+</body>
+</html>
